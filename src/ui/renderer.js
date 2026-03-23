@@ -362,30 +362,53 @@ function updateMysteryBar() {
 // ORB — Click with visual feedback
 // ═══════════════════════════════════════
 
-function setupOrb() {
+function triggerOrbClick(clientX, clientY) {
   const orb = document.getElementById('orb');
   const orbArea = document.getElementById('orb-area');
+  const earned = doClick();
+
+  // Ripple at click position (or center of orb for keyboard)
+  const orbRect = orb.getBoundingClientRect();
+  const ox = clientX !== undefined ? clientX - orbRect.left : orbRect.width / 2;
+  const oy = clientY !== undefined ? clientY - orbRect.top : orbRect.height / 2;
+
+  const ripple = document.createElement('div');
+  ripple.className = 'click-ripple';
+  ripple.style.left = ox + 'px';
+  ripple.style.top = oy + 'px';
+  orb.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 400);
+
+  // Floating number
+  const num = document.createElement('div');
+  num.className = 'click-number';
+  num.textContent = '+' + formatNumber(earned);
+  const areaRect = orbArea.getBoundingClientRect();
+  const nx = clientX !== undefined ? clientX - areaRect.left : areaRect.width / 2;
+  const ny = clientY !== undefined ? clientY - areaRect.top : areaRect.height / 2 - 20;
+  num.style.left = nx + 'px';
+  num.style.top = ny + 'px';
+  orbArea.appendChild(num);
+  setTimeout(() => num.remove(), 800);
+
+  // Bounce animation
+  orb.style.transform = 'scale(0.92)';
+  setTimeout(() => { orb.style.transform = ''; }, 80);
+}
+
+function setupOrb() {
+  const orb = document.getElementById('orb');
 
   orb.addEventListener('click', (e) => {
-    const earned = doClick();
+    triggerOrbClick(e.clientX, e.clientY);
+  });
 
-    // Ripple
-    const ripple = document.createElement('div');
-    ripple.className = 'click-ripple';
-    ripple.style.left = e.offsetX + 'px';
-    ripple.style.top = e.offsetY + 'px';
-    orb.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 400);
-
-    // Floating number
-    const num = document.createElement('div');
-    num.className = 'click-number';
-    num.textContent = '+' + formatNumber(earned);
-    const rect = orbArea.getBoundingClientRect();
-    num.style.left = (e.clientX - rect.left) + 'px';
-    num.style.top = (e.clientY - rect.top) + 'px';
-    orbArea.appendChild(num);
-    setTimeout(() => num.remove(), 800);
+  // Any key press also clicks the orb
+  document.addEventListener('keydown', (e) => {
+    // Ignore held keys (repeat), modifier-only keys, and Escape
+    if (e.repeat || e.code !== 'Space') return;
+    e.preventDefault();
+    triggerOrbClick();
   });
 }
 
