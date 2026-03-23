@@ -1,0 +1,15 @@
+{
+  "name": "the-parasite",
+  "version": "0.1.0",
+  "description": "A self-aware idle game that remembers everything",
+  "main": "app/main.js",
+  "scripts": {
+    "build": "esbuild src/ui/renderer.js --bundle --outfile=dist/renderer.js --platform=browser --format=iife",
+    "start": "npm run build && electron .",
+    "dev": "npm run build && electron . --dev"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "esbuild": "^0.27.4"
+  }
+}

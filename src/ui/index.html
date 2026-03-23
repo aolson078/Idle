@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024, height=768">
+  <title>The Parasite</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game">
+    <!-- Header: Resource counter -->
+    <div id="header">
+      <div id="essence-display">0</div>
+      <div id="rate-display">0.0 /s</div>
+    </div>
+
+    <!-- Main: Generators | Orb | Upgrades -->
+    <div id="main">
+      <div id="generators-panel"></div>
+
+      <div id="orb-area">
+        <div id="orb"></div>
+        <div id="molt-area">
+          <button id="molt-btn">Molt</button>
+        </div>
+      </div>
+
+      <div id="upgrades-panel"></div>
+    </div>
+
+    <!-- Footer: Mystery bar -->
+    <div id="footer">
+      <div id="mystery-bar">
+        <div id="mystery-bar-fill"></div>
+      </div>
+      <span id="mystery-label">???</span>
+    </div>
+  </div>
+
+  <script src="../../dist/renderer.js"></script>
+</body>
+</html>
